@@ -22,9 +22,9 @@ namespace JwtAuthentication.Controllers
 
         // GET: api/Devices
         [HttpGet]
-        public IEnumerable<Device> GetDevice()
+        public IActionResult GetDevice()
         {
-            return _context.Devices;
+            return Ok(_context.Devices.ToList());
         }
 
         // GET: api/Devices/5
