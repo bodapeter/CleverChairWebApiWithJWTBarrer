@@ -5,6 +5,8 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using JwtAuthentication.Data;
+using JwtAuthentication.Models;
 using JwtAuthentication.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -18,6 +20,7 @@ namespace JwtAuthentication.Controllers
     {
         private readonly UserManager<IdentityUser> _userManager;
         private readonly IConfiguration _configuration;
+        private readonly ApplicationDbContext _context;
 
         public AuthController(UserManager<IdentityUser> userManager, IConfiguration configuration)
         {
@@ -35,6 +38,9 @@ namespace JwtAuthentication.Controllers
             {
                 Email = model.Email,
                 UserName = model.Email,
+                //UserFirstName = model.UserFirstName,
+                //UserLastName = model.UserLastName,
+                //UserHeight = model.UserHeight,
                 UserWeight = model.UserWeight,
                 DeviceID = model.DeviceID,
                 SecurityStamp = Guid.NewGuid().ToString()
@@ -44,6 +50,8 @@ namespace JwtAuthentication.Controllers
             {
                 await _userManager.AddToRoleAsync(user, "Customer");
             }
+
+            //_context.Devices.Add(new Models.Device());
             return Ok(new { Username = user.UserName });
         }
 

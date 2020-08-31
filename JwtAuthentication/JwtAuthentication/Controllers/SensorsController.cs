@@ -45,7 +45,7 @@ namespace JwtAuthentication.Controllers
 
         // GET api/sensors
         [HttpGet]
-        [AllowAnonymous]
+        //[AllowAnonymous]
         public IActionResult Get()
         {
             try
@@ -62,9 +62,9 @@ namespace JwtAuthentication.Controllers
 
         // GET api/values/5
         [HttpGet("{id}")]
-        public ActionResult<SensorData> Get(string id)
+        public IActionResult Get(string id)
         {
-            return _context.SensorDatas.FirstOrDefault(t => t.DeviceId == id);
+            return Ok(_context.SensorDatas.FirstOrDefault(t => t.DeviceId == id));
         }
 
         // POST api/values

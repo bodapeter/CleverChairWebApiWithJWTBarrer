@@ -16,7 +16,16 @@ namespace JwtAuthentication.ViewModels
         public string Password { get; set; }
 
         [Required]
+        public string UserLastName { get; set; }
+        
+        [Required]
+        public string UserFirstName { get; set; }
+
+        [Required]
         public double UserWeight { get; set; }
+
+        [Required]
+        public double UserHeight { get;set }
 
         [Required]
         public string DeviceID { get; set; }
