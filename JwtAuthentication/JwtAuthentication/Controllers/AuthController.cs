@@ -31,10 +31,12 @@ namespace JwtAuthentication.Controllers
         [AllowAnonymous]
         public async Task<ActionResult> InsertUser([FromBody] RegisterViewModel model)
         {
-            var user = new IdentityUser
+            var user = new MyIdentityUser
             {
                 Email = model.Email,
                 UserName = model.Email,
+                UserWeight = model.UserWeight,
+                DeviceID = model.DeviceID,
                 SecurityStamp = Guid.NewGuid().ToString()
             };
             var result = await _userManager.CreateAsync(user, model.Password);
