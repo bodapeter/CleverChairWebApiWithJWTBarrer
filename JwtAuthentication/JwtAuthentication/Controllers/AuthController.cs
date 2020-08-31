@@ -6,6 +6,7 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using JwtAuthentication.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -27,6 +28,7 @@ namespace JwtAuthentication.Controllers
         // /register
         [Route("register")]
         [HttpPost]
+        [AllowAnonymous]
         public async Task<ActionResult> InsertUser([FromBody] RegisterViewModel model)
         {
             var user = new IdentityUser

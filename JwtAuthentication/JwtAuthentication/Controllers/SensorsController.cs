@@ -45,9 +45,19 @@ namespace JwtAuthentication.Controllers
 
         // GET api/sensors
         [HttpGet]
-        public ActionResult<IEnumerable<SensorData>> Get()
+        [AllowAnonymous]
+        public IActionResult Get()
         {
-            return _context.SensorDatas;
+            try
+            {
+                return Ok(_context.SensorDatas.ToList());
+
+            }
+            catch (Exception e)
+            {
+
+                return Ok(e.Message);
+            }
         }
 
         // GET api/values/5
