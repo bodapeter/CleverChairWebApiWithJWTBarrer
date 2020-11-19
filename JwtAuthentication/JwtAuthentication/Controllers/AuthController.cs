@@ -18,42 +18,55 @@ namespace JwtAuthentication.Controllers
 {
     public class AuthController : Controller
     {
-        private readonly UserManager<IdentityUser> _userManager;
+        private readonly UserManager<User> _userManager;
         private readonly IConfiguration _configuration;
         private readonly ApplicationDbContext _context;
 
-        public AuthController(UserManager<IdentityUser> userManager, IConfiguration configuration)
+        public AuthController(UserManager<User> userManager, IConfiguration configuration)
         {
             _userManager = userManager;
             _configuration = configuration;
         }
 
+        
         // /register
         [Route("register")]
         [HttpPost]
-        [AllowAnonymous]
         public async Task<ActionResult> InsertUser([FromBody] RegisterViewModel model)
         {
-            var user = new MyIdentityUser
+            try
             {
-                Email = model.Email,
-                UserName = model.Email,
-                //UserFirstName = model.UserFirstName,
-                //UserLastName = model.UserLastName,
-                //UserHeight = model.UserHeight,
-                UserWeight = model.UserWeight,
-                DeviceID = model.DeviceID,
-                SecurityStamp = Guid.NewGuid().ToString()
-            };
-            var result = await _userManager.CreateAsync(user, model.Password);
-            if (result.Succeeded)
-            {
-                await _userManager.AddToRoleAsync(user, "Customer");
-            }
+                var user = new User
+                {
+                    Email = model.Email,
+                    UserName = model.Email,
+                    //UserFirstName = model.UserFirstName,
+                    //UserLastName = model.UserLastName,
+                    //UserHeight = model.UserHeight,
+                    Weight = model.UserWeight,
+                    SecurityStamp = Guid.NewGuid().ToString()
+                };
+                var result = await _userManager.CreateAsync(user, model.Password);
+                if (!result.Succeeded)
+                {
+                    return StatusCode(500);
+                }             
+                    await _userManager.AddToRoleAsync(user, "Customer");         
+                
 
-            //_context.Devices.Add(new Models.Device());
-            return Ok(new { Username = user.UserName });
+
+                //_context.Devices.Add(new Models.Device());
+                return Ok(new { Username = user.UserName });
+            }
+            catch (Exception e)
+            {
+
+                return NotFound(e.Message);
+            }
+            
         }
+
+
 
         [Route("login")] // /login
         [HttpPost]

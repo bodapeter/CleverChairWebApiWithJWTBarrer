@@ -18,11 +18,11 @@ namespace JwtAuthentication.Controllers
     [ApiController]
     public class SensorsController : ControllerBase
     {
-        private readonly UserManager<IdentityUser> _userManager;
+        private readonly UserManager<User> _userManager;
         private readonly IConfiguration _configuration;
         private readonly ApplicationDbContext _context;
 
-        public SensorsController(ApplicationDbContext context, UserManager<IdentityUser> userManager, IConfiguration configuration)
+        public SensorsController(ApplicationDbContext context, UserManager<User> userManager, IConfiguration configuration)
         {
             this._context = context;
             _userManager = userManager;
@@ -45,7 +45,7 @@ namespace JwtAuthentication.Controllers
 
         // GET api/sensors
         [HttpGet]
-        //[AllowAnonymous]
+        [AllowAnonymous]
         public IActionResult Get()
         {
             try

@@ -4,14 +4,16 @@ using JwtAuthentication.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace JwtAuthentication.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20201119203257_newidentityuser")]
+    partial class newidentityuser
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -275,6 +277,9 @@ namespace JwtAuthentication.Migrations
                 {
                     b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityUser");
 
+                    b.Property<string>("DeviceID")
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<string>("FirstName")
                         .HasColumnType("nvarchar(max)");
 
@@ -284,8 +289,10 @@ namespace JwtAuthentication.Migrations
                     b.Property<string>("LastName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<double>("Weight")
+                    b.Property<double>("Weigh")
                         .HasColumnType("float");
+
+                    b.HasIndex("DeviceID");
 
                     b.HasDiscriminator().HasValue("User");
                 });
@@ -353,6 +360,13 @@ namespace JwtAuthentication.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("JwtAuthentication.Models.User", b =>
+                {
+                    b.HasOne("JwtAuthentication.Models.Device", "Device")
+                        .WithMany()
+                        .HasForeignKey("DeviceID");
                 });
 #pragma warning restore 612, 618
         }
